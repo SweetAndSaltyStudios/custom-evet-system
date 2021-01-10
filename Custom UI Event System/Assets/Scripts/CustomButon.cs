@@ -128,41 +128,41 @@ public class CustomButon : Button
     #endregion UNITY EVENT DATA EVENTS
 
     #region SELECTABLE METHOD OVERRIDES
-    public override Selectable FindSelectableOnDown()
-    {
-        Debug.Log($"{name}: FindSelectableOnDown", gameObject);
-        return base.FindSelectableOnDown();
-    }
-    public override Selectable FindSelectableOnLeft()
-    {
-        Debug.Log($"{name}: FindSelectableOnLeft", gameObject);
-        return base.FindSelectableOnLeft();
-    }
-    public override Selectable FindSelectableOnRight()
-    {
-        Debug.Log($"{name}: FindSelectableOnRight", gameObject);
-        return base.FindSelectableOnRight();
-    }
-    public override Selectable FindSelectableOnUp()
-    {
-        Debug.Log($"{name}: FindSelectableOnUp", gameObject);
-        return base.FindSelectableOnUp();
-    }
-    public override bool IsInteractable()
-    {
-        Debug.Log($"{name}: IsInteractable", gameObject);
-        return base.IsInteractable();
-    }
-    protected override void DoStateTransition(SelectionState state, bool instant)
-    {
-        base.DoStateTransition(state, instant);
-        Debug.Log($"{name}: DoStateTransition", gameObject);
-    }
-    protected override void InstantClearState()
-    {
-        base.InstantClearState();
-        Debug.Log($"{name}: InstantClearState", gameObject);
-    }
+    //public override Selectable FindSelectableOnDown()
+    //{
+    //    Debug.Log($"{name}: FindSelectableOnDown", gameObject);
+    //    return base.FindSelectableOnDown();
+    //}
+    //public override Selectable FindSelectableOnLeft()
+    //{
+    //    Debug.Log($"{name}: FindSelectableOnLeft", gameObject);
+    //    return base.FindSelectableOnLeft();
+    //}
+    //public override Selectable FindSelectableOnRight()
+    //{
+    //    Debug.Log($"{name}: FindSelectableOnRight", gameObject);
+    //    return base.FindSelectableOnRight();
+    //}
+    //public override Selectable FindSelectableOnUp()
+    //{
+    //    Debug.Log($"{name}: FindSelectableOnUp", gameObject);
+    //    return base.FindSelectableOnUp();
+    //}
+    //public override bool IsInteractable()
+    //{
+    //    Debug.Log($"{name}: IsInteractable", gameObject);
+    //    return base.IsInteractable();
+    //}
+    //protected override void DoStateTransition(SelectionState state, bool instant)
+    //{
+    //    base.DoStateTransition(state, instant);
+    //    Debug.Log($"{name}: DoStateTransition", gameObject);
+    //}
+    //protected override void InstantClearState()
+    //{
+    //    base.InstantClearState();
+    //    Debug.Log($"{name}: InstantClearState", gameObject);
+    //}
     #endregion SELECTABLE METHOD OVERRIDES
 
     #region BASE OBJECT EVENT OVERRIDES
@@ -183,9 +183,9 @@ public class CustomButon : Button
     //}
     #endregion BASE OBJECT EVENT OVERRIDES
 
-    public override void Select()
-    {
-        base.Select();
-        Debug.Log($"{name}: Select", gameObject);
-    }
+    //public override void Select()
+    //{
+    //    base.Select();
+    //    Debug.Log($"{name}: Select", gameObject);
+    //}
 }
