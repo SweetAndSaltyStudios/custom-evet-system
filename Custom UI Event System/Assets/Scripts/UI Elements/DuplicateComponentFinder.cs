@@ -43,17 +43,6 @@ public class DuplicateComponentFinder : MonoBehaviour
         isCreated = true;
     }
 
-    public void Remove()
-    {
-        if(duplicatePointers != null)
-        {
-            foreach(var duplicatePointer in duplicatePointers)
-            {
-                duplicatePointer.RemoveDuplicates();
-            }
-        }
-    }
-
     public void Clear()
     {
         if(duplicatePointers != null)
@@ -63,5 +52,16 @@ public class DuplicateComponentFinder : MonoBehaviour
         }
 
         isCreated = false;
+    }
+
+    public void Remove()
+    {
+        if(duplicatePointers != null)
+        {
+            foreach(var duplicatePointer in duplicatePointers)
+            {
+                duplicatePointer.RemoveDuplicates();
+            }
+        }
     }
 }

@@ -19,8 +19,8 @@ public class CustomSelectable : Selectable
 
     private void Update()
     {
-        if(currentEventSystem.IsSubmitButtonUp == false) return;
         if(currentEventSystem == null) return;
+        if(currentEventSystem.IsSubmitButtonUp == false) return;
         if(currentEventSystem.currentSelectedGameObject != gameObject) return;
 
         foreach(var trigger in _eventTrigger.triggers)
