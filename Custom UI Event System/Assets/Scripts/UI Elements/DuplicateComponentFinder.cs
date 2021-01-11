@@ -21,26 +21,39 @@ public class DuplicateComponentFinder : MonoBehaviour
             duplicatePointers = new List<DuplicatePointer>();
         }
 
-        var rootGameObjects =SceneManager.GetActiveScene()
+        var rootGameObjects = SceneManager.GetActiveScene()
             .GetRootGameObjects();
 
-        foreach(var rootGameObject in rootGameObjects)
+        foreach(var root in rootGameObjects)
         {
-            var components = rootGameObject.GetComponents<Component>();
-
-            var duplicateComponents = components
-                .GroupBy(s => s.GetType())
-                .SelectMany(x => x.Skip(1)).ToArray();
-
-            if(duplicateComponents == null || duplicateComponents.Length == 0)
+            foreach(var child in root.GetComponentsInChildren<Transform>(true))
             {
-                continue;
+                HandleDuplicates(child.gameObject);
             }
-
-            duplicatePointers.Add(new DuplicatePointer(rootGameObject, duplicateComponents));
         }
 
         isCreated = true;
+    }
+
+    private void HandleDuplicates(GameObject gameObject)
+    {
+        var duplicates = GetDuplicates(gameObject);
+
+        if(duplicates == null || duplicates.Length == 0) return;
+        
+        duplicatePointers.Add(new DuplicatePointer(gameObject, duplicates));
+    }
+
+    private Component[] GetDuplicates(GameObject gameObject)
+    {
+        var components = gameObject.GetComponents<Component>();
+
+        var duplicateComponents = components
+            .GroupBy(s => s.GetType())
+            .SelectMany(x => x.Skip(1))
+            .ToArray();
+
+        return duplicateComponents;
     }
 
     public void Clear()

@@ -6,14 +6,14 @@ public class DuplicatePointer
 {
     [HideInInspector] public string Name = default;
 
-    [SerializeField] private GameObject rootGameObject = default;
+    [SerializeField] private GameObject contextGameObject = default;
     [SerializeField] private Component[] duplicateComponents = default;
 
-    public DuplicatePointer(GameObject rootGameObject, Component[] duplicateComponents)
+    public DuplicatePointer(GameObject contextGameObject, Component[] duplicateComponents)
     {
-        Name = rootGameObject.name;
+        Name = contextGameObject.name;
 
-        this.rootGameObject = rootGameObject;
+        this.contextGameObject = contextGameObject;
         this.duplicateComponents = duplicateComponents;
     }
 
