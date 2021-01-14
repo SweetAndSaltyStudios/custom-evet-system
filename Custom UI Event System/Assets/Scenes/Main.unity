@@ -151,11 +151,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7e8754d24503eb4b8acbd5011eee95e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 1956185728}
+  m_FirstSelected: {fileID: 1507070970}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
-  _submitLabel: Submit
-  _cancelLabel: Cancel
+  _submitButtonAxisName: Submit
+  _cancelButtonAxisName: Cancel
+  _horizontalAxisName: Horizontal
+  _verticalAxisName: Vertical
 --- !u!4 &127268166
 Transform:
   m_ObjectHideFlags: 0

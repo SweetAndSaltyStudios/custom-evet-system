@@ -4,15 +4,21 @@ using UnityEngine.UI;
 
 public class CustomEventSystem : EventSystem
 {
-    private Selectable[] _selectables = default;
     private GameObject _previousSelectedObject = default;
+    private GameObject _currentSelectedGameObject_Recent = default;
 
-    [SerializeField] private string _submitLabel = "Submit";
-    [SerializeField] private string _cancelLabel = "Cancel";
+    [Space]
+    [Header("Axis References")]
+    [SerializeField] private string _submitButtonAxisName = "Submit";
+    [SerializeField] private string _cancelButtonAxisName = "Cancel";
+    [SerializeField] private string _horizontalAxisName = "Horizontal";
+    [SerializeField] private string _verticalAxisName = "Vertical";
 
-    public bool IsSubmitButtonUp { get => Input.GetButtonUp(_submitLabel); }
-    public bool IsCancelButtonUp { get => Input.GetButtonUp(_cancelLabel); }
+    public bool IsSubmitButtonUp { get => Input.GetButtonUp(_submitButtonAxisName); }
+    public bool IsCancelButtonUp { get => Input.GetButtonUp(_cancelButtonAxisName); }
     public static CustomEventSystem Instance { get; private set; }
+
+    public bool HasAxisMovement { get { return currentInputModule.input.GetAxisRaw(_horizontalAxisName) != 0 || currentInputModule.input.GetAxisRaw(_verticalAxisName) != 0; } }
 
     protected override void Awake()
     {
@@ -24,7 +30,7 @@ public class CustomEventSystem : EventSystem
     {
         base.Start();
 
-        SetSelectedObject(firstSelectedGameObject);
+        SetSelectedGameObject(firstSelectedGameObject);
     }
     protected override void Update()
     {
@@ -32,21 +38,34 @@ public class CustomEventSystem : EventSystem
 
         if(IsCancelButtonUp)
         {
-            SetSelectedObject(null);
+            if(currentSelectedGameObject != null)
+            { 
+                _previousSelectedObject = currentSelectedGameObject;
+            } 
+
+            SetSelectedGameObject(null);
+            return;
         }
 
-        if(currentSelectedGameObject != null) return;
-
-        if(Input.anyKeyDown)
+        if(currentSelectedGameObject != null)
         {
-            SetSelectedObject(_previousSelectedObject != null ? _previousSelectedObject : GetFirstActiveSelectedObject());
+            return;
+        }
+
+        if(currentSelectedGameObject != _currentSelectedGameObject_Recent)
+        {
+            _previousSelectedObject = _currentSelectedGameObject_Recent;
+            _currentSelectedGameObject_Recent = currentSelectedGameObject;
+        }
+
+        if(HasAxisMovement == true)
+        {
+            SetSelectedGameObject(_previousSelectedObject != null ? _previousSelectedObject : GetFirstActiveSelectedObject());
         }
     }
 
     private void Initialize()
     {
-        _selectables = FindObjectsOfType<Selectable>();
-
         if(Instance == null)
         {
             Instance = this;
@@ -56,15 +75,10 @@ public class CustomEventSystem : EventSystem
             Destroy(gameObject);
         }
     }
-    private void SetSelectedObject(GameObject gameObject)
-    {
-        _previousSelectedObject = currentSelectedGameObject;
-
-        SetSelectedGameObject(gameObject);
-    }
+ 
     private GameObject GetFirstActiveSelectedObject()
     {
-        foreach(var selectble in _selectables)
+        foreach(var selectble in Selectable.allSelectablesArray)
         {
             if(selectble.gameObject.activeInHierarchy)
             {
