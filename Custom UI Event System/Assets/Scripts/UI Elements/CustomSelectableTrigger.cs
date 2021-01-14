@@ -2,12 +2,19 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CustomSelectable : Selectable
+[RequireComponent(typeof(EventTrigger))]
+public class CustomSelectableTrigger : Selectable
 {
-    [SerializeField] private EventTrigger _eventTrigger = default;
-    
+    private EventTrigger _eventTrigger = default;
     private CustomEventSystem currentEventSystem = default;
     private PointerEventData pointerEventData = default;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        _eventTrigger = GetComponent<EventTrigger>();
+    }
 
     protected override void Start()
     {

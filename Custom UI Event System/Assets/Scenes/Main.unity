@@ -1968,7 +1968,6 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1216955552}
-  _eventTrigger: {fileID: 1216955551}
 --- !u!114 &1216955551
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3246,4 +3245,3 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 1956185731}
-  _eventTrigger: {fileID: 1956185730}
