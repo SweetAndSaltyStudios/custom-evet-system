@@ -1,14 +1,17 @@
 ﻿using UnityEngine;
 
-public class DebugHandler : MonoBehaviour
+namespace CustomUI.Helpers
 {
-    public void DebugMessage(GameObject gameObject)
+    public class DebugHandler : MonoBehaviour
     {
-        Debug.Log(gameObject.name, gameObject);
-    }
+        public void DebugMessage(GameObject gameObject)
+        {
+            Debug.Log(gameObject.name, gameObject);
+        }
 
-    public void DebugMessage(string message)
-    {
-        Debug.Log(message);
+        public void DebugMessage(string message)
+        {
+            Debug.Log(message);
+        }
     }
 }

@@ -1,104 +1,112 @@
-﻿using UnityEngine;
+﻿using System;
+
+using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(StandaloneInputModule))]
-public class CustomEventSystem : EventSystem
+namespace CustomUI.EventSystems
 {
-    private GameObject _previousSelectedObject = default;
-    private GameObject _currentSelectedGameObjectRecent = default;
-    private StandaloneInputModule _standaloneInput = default;
+    [Serializable] public class OnSelectEvent : UnityEvent { }
+    [Serializable] public class OnDeselectEvent : UnityEvent { }
+    [Serializable] public class OnCancelEvent : UnityEvent { }
 
-    public bool HasAxisMovement 
-    { 
-        get =>
-            currentInputModule.input.GetAxisRaw(_standaloneInput.horizontalAxis) != 0
-            || 
-            currentInputModule.input.GetAxisRaw(_standaloneInput.verticalAxis) != 0; 
-    }
-
-    public bool IsSubmitButtonUp { get => Input.GetButtonUp(_standaloneInput.submitButton); }
-    public bool IsCancelButtonUp { get => Input.GetButtonUp(_standaloneInput.cancelButton); }
-    public static CustomEventSystem Instance { get; private set; }
-
-
-    protected override void Awake()
+    [RequireComponent(typeof(StandaloneInputModule))]
+    public class CustomEventSystem : EventSystem
     {
-        base.Awake();
+        private GameObject _previousSelectedObject = default;
+        private GameObject _currentSelectedGameObjectRecent = default;
+        private StandaloneInputModule _standaloneInput = default;
 
-        Initialize();
-
-    }
-    protected override void Start()
-    {
-        base.Start();
-
-        SetSelectedGameObject(firstSelectedGameObject);
-    }
-    protected override void Update()
-    {
-        base.Update();
-
-        if(IsCancelButtonUp)
+        public bool HasAxisMovement
         {
-            if(currentSelectedGameObject != null)
-            { 
-                _previousSelectedObject = currentSelectedGameObject;
-            } 
-
-            SetSelectedGameObject(null);
-            return;
+            get =>
+                currentInputModule.input.GetAxisRaw(_standaloneInput.horizontalAxis) != 0
+                ||
+                currentInputModule.input.GetAxisRaw(_standaloneInput.verticalAxis) != 0;
         }
+        public bool IsSubmitButtonUp { get => Input.GetButtonUp(_standaloneInput.submitButton); }
+        public bool IsCancelButtonUp { get => Input.GetButtonUp(_standaloneInput.cancelButton); }
+        public static CustomEventSystem Instance { get; private set; }
 
-        if(currentSelectedGameObject != null)
+        protected override void Awake()
         {
-            return;
-        }
+            base.Awake();
 
-        if(currentSelectedGameObject != _currentSelectedGameObjectRecent)
-        {
-            _previousSelectedObject = _currentSelectedGameObjectRecent;
-            _currentSelectedGameObjectRecent = currentSelectedGameObject;
-        }
+            Initialize();
 
-        if(HasAxisMovement == true)
-        {
-            SetSelectedGameObject(_previousSelectedObject != null ? _previousSelectedObject : GetFirstActiveSelectedObject());
         }
-    }
-    protected override void OnValidate()
-    {
-        base.OnValidate();
+        protected override void Start()
+        {
+            base.Start();
 
-        if(_standaloneInput == null)
-        {
-            _standaloneInput = GetComponent<StandaloneInputModule>();
+            SetSelectedGameObject(firstSelectedGameObject);
         }
-    }
+        protected override void Update()
+        {
+            base.Update();
 
-    private void Initialize()
-    {
-        _standaloneInput = GetComponent<StandaloneInputModule>();
-
-        if(Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    private GameObject GetFirstActiveSelectedObject()
-    {
-        foreach(var selectble in Selectable.allSelectablesArray)
-        {
-            if(selectble.gameObject.activeInHierarchy)
+            if(IsCancelButtonUp)
             {
-                return selectble.gameObject;
+                if(currentSelectedGameObject != null)
+                {
+                    _previousSelectedObject = currentSelectedGameObject;
+                }
+
+                SetSelectedGameObject(null);
+                return;
+            }
+
+            if(currentSelectedGameObject != null)
+            {
+                return;
+            }
+
+            if(currentSelectedGameObject != _currentSelectedGameObjectRecent)
+            {
+                _previousSelectedObject = _currentSelectedGameObjectRecent;
+                _currentSelectedGameObjectRecent = currentSelectedGameObject;
+            }
+
+            if(HasAxisMovement == true)
+            {
+                SetSelectedGameObject(_previousSelectedObject != null ? _previousSelectedObject : GetFirstActiveSelectedObject());
+            }
+        }
+        protected override void OnValidate()
+        {
+            base.OnValidate();
+
+            if(_standaloneInput == null)
+            {
+                _standaloneInput = GetComponent<StandaloneInputModule>();
             }
         }
 
-        return null;
+        private void Initialize()
+        {
+            _standaloneInput = GetComponent<StandaloneInputModule>();
+
+            if(Instance == null)
+            {
+                Instance = this;
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
+        private GameObject GetFirstActiveSelectedObject()
+        {
+            foreach(var selectble in Selectable.allSelectablesArray)
+            {
+                if(selectble.gameObject.activeInHierarchy)
+                {
+                    return selectble.gameObject;
+                }
+            }
+
+            return null;
+        }
     }
 }
