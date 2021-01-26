@@ -2,21 +2,23 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(StandaloneInputModule))]
 public class CustomEventSystem : EventSystem
 {
-    [Space]
-    [Header("Axis References")]
-    [SerializeField] private string _submitButtonAxisName = "Submit";
-    [SerializeField] private string _cancelButtonAxisName = "Cancel";
-    [SerializeField] private string _horizontalAxisName = "Horizontal";
-    [SerializeField] private string _verticalAxisName = "Vertical";
-
     private GameObject _previousSelectedObject = default;
-    private GameObject _currentSelectedGameObject_Recent = default;
+    private GameObject _currentSelectedGameObjectRecent = default;
+    private StandaloneInputModule _standaloneInput = default;
 
-    public bool HasAxisMovement { get => currentInputModule.input.GetAxisRaw(_horizontalAxisName) != 0 || currentInputModule.input.GetAxisRaw(_verticalAxisName) != 0; }
-    public bool IsSubmitButtonUp { get => Input.GetButtonUp(_submitButtonAxisName); }
-    public bool IsCancelButtonUp { get => Input.GetButtonUp(_cancelButtonAxisName); }
+    public bool HasAxisMovement 
+    { 
+        get =>
+            currentInputModule.input.GetAxisRaw(_standaloneInput.horizontalAxis) != 0
+            || 
+            currentInputModule.input.GetAxisRaw(_standaloneInput.verticalAxis) != 0; 
+    }
+
+    public bool IsSubmitButtonUp { get => Input.GetButtonUp(_standaloneInput.submitButton); }
+    public bool IsCancelButtonUp { get => Input.GetButtonUp(_standaloneInput.cancelButton); }
     public static CustomEventSystem Instance { get; private set; }
 
 
@@ -25,6 +27,7 @@ public class CustomEventSystem : EventSystem
         base.Awake();
 
         Initialize();
+
     }
     protected override void Start()
     {
@@ -52,10 +55,10 @@ public class CustomEventSystem : EventSystem
             return;
         }
 
-        if(currentSelectedGameObject != _currentSelectedGameObject_Recent)
+        if(currentSelectedGameObject != _currentSelectedGameObjectRecent)
         {
-            _previousSelectedObject = _currentSelectedGameObject_Recent;
-            _currentSelectedGameObject_Recent = currentSelectedGameObject;
+            _previousSelectedObject = _currentSelectedGameObjectRecent;
+            _currentSelectedGameObjectRecent = currentSelectedGameObject;
         }
 
         if(HasAxisMovement == true)
@@ -63,9 +66,20 @@ public class CustomEventSystem : EventSystem
             SetSelectedGameObject(_previousSelectedObject != null ? _previousSelectedObject : GetFirstActiveSelectedObject());
         }
     }
+    protected override void OnValidate()
+    {
+        base.OnValidate();
+
+        if(_standaloneInput == null)
+        {
+            _standaloneInput = GetComponent<StandaloneInputModule>();
+        }
+    }
 
     private void Initialize()
     {
+        _standaloneInput = GetComponent<StandaloneInputModule>();
+
         if(Instance == null)
         {
             Instance = this;
@@ -75,7 +89,6 @@ public class CustomEventSystem : EventSystem
             Destroy(gameObject);
         }
     }
- 
     private GameObject GetFirstActiveSelectedObject()
     {
         foreach(var selectble in Selectable.allSelectablesArray)

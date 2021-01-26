@@ -9,6 +9,17 @@ public class DuplicateComponentFinder : MonoBehaviour
 
     private bool isCreated = default;
 
+    public void GetAllComponentsInScene()
+    {
+        if(isCreated)
+        {
+            return;
+        }
+
+
+        isCreated = true;
+    }
+
     public void GetDuplicateComponentsInScene()
     {
         if(isCreated)
