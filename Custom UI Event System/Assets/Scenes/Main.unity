@@ -752,6 +752,12 @@ MonoBehaviour:
   OnSelect_Event:
     m_PersistentCalls:
       m_Calls: []
+  OnDeselect_Event:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCancel_Event:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &385670186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1342,18 +1348,35 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: FOFOOFOFO
+          m_StringArgument: On Select
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1216955548}
-        m_MethodName: 
-        m_Mode: 1
+  OnDeselect_Event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 863703191}
+        m_MethodName: DebugMessage
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: On Deselect
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnCancel_Event:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 863703191}
+        m_MethodName: DebugMessage
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: On Cancel
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &527628757
@@ -2416,6 +2439,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnSelect_Event:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeselect_Event:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCancel_Event:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &968290851
@@ -4623,6 +4652,12 @@ MonoBehaviour:
   OnSelect_Event:
     m_PersistentCalls:
       m_Calls: []
+  OnDeselect_Event:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCancel_Event:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1771160453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5025,6 +5060,12 @@ MonoBehaviour:
   OnSelect_Event:
     m_PersistentCalls:
       m_Calls: []
+  OnDeselect_Event:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCancel_Event:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &1869112718
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5144,6 +5185,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   OnSelect_Event:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDeselect_Event:
+    m_PersistentCalls:
+      m_Calls: []
+  OnCancel_Event:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &1905313286

@@ -10,31 +10,40 @@ using UnityEngine.UI;
 public class UIButtonEditor : ButtonEditor
 {
     private SerializedProperty OnSelect_Event = default;
+    private SerializedProperty OnDeselect_Event = default;
+    private SerializedProperty OnCancel_Event = default;
 
     protected override void OnEnable()
     {
         base.OnEnable();
      
         OnSelect_Event = serializedObject.FindProperty("OnSelect_Event");
+        OnDeselect_Event = serializedObject.FindProperty("OnDeselect_Event");
+        OnCancel_Event = serializedObject.FindProperty("OnCancel_Event");
     }
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
 
         serializedObject.Update();
+
         EditorGUILayout.PropertyField(OnSelect_Event, true);
+        EditorGUILayout.PropertyField(OnDeselect_Event, true);
+        EditorGUILayout.PropertyField(OnCancel_Event, true);
+
         serializedObject.ApplyModifiedProperties();
     }
 }
 
-
-public class CustomButton : Button
+public class CustomButton : Button, ICancelHandler
 {
-    [Serializable]
-    public class OnSelectEvent : UnityEvent { }
+    [Serializable] public class OnSelectEvent : UnityEvent { }
+    [Serializable] public class OnDeselectEvent : UnityEvent { }
+    [Serializable] public class OnCancelEvent : UnityEvent { }
 
     public OnSelectEvent OnSelect_Event;
-    public event Action OnDeselect_Event = () => { };
+    public OnDeselectEvent OnDeselect_Event;
+    public OnCancelEvent OnCancel_Event;
 
     #region UNITY BASE METHOD OVERRIDES
     //public override bool IsActive()
@@ -131,7 +140,15 @@ public class CustomButton : Button
         OnDeselect_Event?.Invoke();
         // Debug.Log($"{name}: OnDeselect", gameObject);
     }
-   
+
+    public void OnCancel(BaseEventData eventData)
+    {
+        base.OnDeselect(eventData);
+
+        OnCancel_Event?.Invoke();
+        // Debug.Log($"{name}: OnCancel", gameObject);
+    }
+
     //public override void OnPointerClick(PointerEventData eventData)
     //{
     //    base.OnPointerClick(eventData);

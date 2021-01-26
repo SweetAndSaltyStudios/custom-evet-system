@@ -8,13 +8,13 @@ public class SelectableWorldHandler : MonoBehaviour
     private void Awake()
     {
         _customButton.OnSelect_Event.AddListener(ShowIndicator);
-        _customButton.OnDeselect_Event += HideIndicator;
+        _customButton.OnDeselect_Event.AddListener(HideIndicator);
     }
 
     private void OnDestroy()
     {
         _customButton.OnSelect_Event.RemoveListener(ShowIndicator);
-        _customButton.OnDeselect_Event -= HideIndicator;
+        _customButton.OnDeselect_Event.RemoveListener(HideIndicator);
     }
 
     private void Start()
